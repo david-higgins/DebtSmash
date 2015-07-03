@@ -3,9 +3,16 @@ using System.Collections.Generic;
 using System.Text;
 using System.Data.Entity;
 using System.Threading;
+using System.Data.Common;
+using System.Data.Entity.Migrations.History;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
+using MySql.Data.Entity;
 
 namespace DebtSmash.Presenter
 {
+
+    [DbConfigurationType(typeof(MySql.Data.Entity.MySqlEFConfiguration))]
     class DebtContext : DbContext
     {
         public DebtContext(String conn) : base(conn) { }
@@ -29,7 +36,7 @@ namespace DebtSmash.Presenter
             Monitor.Enter(rlock);
             removed = this[index];
             base.RemoveItem(index);
-        }
+        }   
         protected override void OnListChanged(System.ComponentModel.ListChangedEventArgs e)
         {
             if (!loadedup) return;
@@ -62,4 +69,5 @@ namespace DebtSmash.Presenter
         }
         public IUpdateList<Debt> models { get { return edl; } }
     }
+
 }

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Text;
+using MySql.Data.Entity;
 
 namespace DebtSmash.Presenter
 {
@@ -31,22 +33,19 @@ namespace DebtSmash.Presenter
     }
     class DebtSmashPresenter
     {
+        const string csf = "connectionStrings.dat";
         static IView mView;
         static IModel mModel;
         public static void Present(IView view)
         {
+
             mView = view;
             String cs;
-            using (var db = new CSDB())
-            {
-                var exist = new List<String>(db.cstring_list);
-                cs = view.GetConnectionString(exist.ToArray());
-                if (!exist.Contains(cs))
-                {
-                    db.cstrings.Add(new ConectionString() { name = cs });
-                    db.SaveChanges();
-                }
-            }
+            List<String> css = new List<string>();
+            if(File.Exists(csf)) css.AddRange(File.ReadAllLines(csf));
+            cs = view.GetConnectionString(css.ToArray());
+            if (!css.Contains(cs)) css.Add(cs);
+            File.WriteAllLines(csf, css.ToArray());
             mModel = new EF_ModelImplimentation(cs);
             view.HeresTheDebt(mModel.models);
         }
