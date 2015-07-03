@@ -86,9 +86,9 @@ namespace DebtSmash.Views.WPF
                             "Delete Debt",
                             typeof(Debt),
                             new InputGestureCollection()
-                                //{
-                                //        new KeyGesture(Key.F4, ModifierKeys.Alt)
-                                //}
+                                {
+                                        new KeyGesture(Key.D, ModifierKeys.Alt)
+                                }
                     );
 
             public static readonly RoutedUICommand Add = new RoutedUICommand

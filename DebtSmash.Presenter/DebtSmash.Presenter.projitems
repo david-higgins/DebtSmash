@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)DebtModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)EF_ModelImplimentation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Heleprs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IView.cs" />
