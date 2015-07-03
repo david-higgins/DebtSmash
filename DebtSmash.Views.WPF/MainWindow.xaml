@@ -7,13 +7,19 @@
         <CommandBinding Command="cmd:Debt.Add"  CanExecute="AlwaysExecute" Executed="AddDebt" />
         <CommandBinding Command="cmd:Debt.Delete" CanExecute="ExecuteIfDebtSelected" Executed="DeleteSelectedDebt"/>
         <CommandBinding Command="cmd:Debt.Edit" CanExecute="ExecuteIfDebtSelected" Executed="EditSelectedDebt"/>
+        <CommandBinding Command="cmd:App.ForgetServer" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
     </Window.CommandBindings>
     <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="b2v"/>
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        
+        
         <ListView ItemsSource="{Binding debt}" Name="DebtList">
             <ListView.View>
                 <GridView>
@@ -62,9 +68,15 @@
                     <Setter Property="Padding" Value="3,0,3,0"/>
                 </Style>
             </StackPanel.Resources>
+            <Button HorizontalAlignment="Left" Margin="3,3,30,3" Command="cmd:App.ForgetServer">Forget Server</Button>
             <Button Command="cmd:Debt.Add">Add</Button>
             <Button Command="cmd:Debt.Delete">Delete</Button>
             <Button Command="cmd:Debt.Edit">Edit</Button>
         </StackPanel>
+
+        <Border Visibility="{Binding loading, Converter={StaticResource b2v}}" Background="#55999999" Grid.RowSpan="3">
+            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"> ... Loading Data ... </TextBlock>
+        </Border>
+
     </Grid>
 </Window>

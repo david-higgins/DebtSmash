@@ -8,5 +8,6 @@ namespace DebtSmash.Presenter
     {
         String GetConnectionString(String[] others);
         void HeresTheDebt(IUpdateList<Debt> debt);
+        bool loading { set; }
     }
 }

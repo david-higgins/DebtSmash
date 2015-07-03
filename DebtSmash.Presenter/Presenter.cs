@@ -6,6 +6,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Text;
 using MySql.Data.Entity;
+using System.Threading;
+
 
 namespace DebtSmash.Presenter
 {
@@ -38,7 +40,7 @@ namespace DebtSmash.Presenter
         static IModel mModel;
         public static void Present(IView view)
         {
-
+            // fast bit do synchronous...
             mView = view;
             String cs;
             List<String> css = new List<string>();
@@ -46,8 +48,15 @@ namespace DebtSmash.Presenter
             cs = view.GetConnectionString(css.ToArray());
             if (!css.Contains(cs)) css.Add(cs);
             File.WriteAllLines(csf, css.ToArray());
-            mModel = new EF_ModelImplimentation(cs);
-            view.HeresTheDebt(mModel.models);
+            view.loading = true;
+            ThreadPool.QueueUserWorkItem(InitData, cs);
+        }
+
+        static void InitData(Object cs)
+        {
+            mModel = new EF_ModelImplimentation(cs as String);
+            mView.HeresTheDebt(mModel.models);
+            mView.loading = false;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -20,6 +21,11 @@ namespace DebtSmash.Views.WPF
     /// </summary>
     partial class MainWindow : Window, IView
     {
+        public void Dinv(Action act)
+        {
+            Dispatcher.Invoke(act);
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +38,7 @@ namespace DebtSmash.Views.WPF
             DebtSmashPresenter.Present(this);
         }
 
-        public UpdateBindingList<Debt> debt { get { return (UpdateBindingList<Debt>)GetValue(debtProperty); } set { SetValue(debtProperty, value); } }
+        public UpdateBindingList<Debt> debt { get { return (UpdateBindingList<Debt>)GetValue(debtProperty); } set { Dinv(() => SetValue(debtProperty, value)); } }
         public static readonly DependencyProperty debtProperty = DependencyProperty.Register("debt", typeof(UpdateBindingList<Debt>), typeof(MainWindow), new PropertyMetadata(new UpdateBindingList<Debt>()));
 
         public void HeresTheDebt(IUpdateList<Debt> debt)
@@ -77,11 +83,28 @@ namespace DebtSmash.Views.WPF
 
         public string GetConnectionString(String[] others)
         {
+            if (File.Exists(GetConnString.acd))
+                return File.ReadAllText(GetConnString.acd);
             var gcs = new GetConnString();
             gcs.others = others;
             gcs.ShowDialog();
             return gcs.ConnectionString.Text;
         }
+
+        public bool loading { get { return (bool)GetValue(loadingProperty); } set { Dinv(() => SetValue(loadingProperty, value)); } }
+        public static readonly DependencyProperty loadingProperty = DependencyProperty.Register("loading", typeof(bool), typeof(MainWindow), new PropertyMetadata(false));
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (File.Exists(GetConnString.acd))
+                File.Delete(GetConnString.acd);
+        }
+
+        private void CommandBinding_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+             e.CanExecute =  File.Exists(GetConnString.acd);
+        }
+
     }
 
     namespace Commands
@@ -121,6 +144,11 @@ namespace DebtSmash.Views.WPF
                 //}
                     );
 
+        }
+
+        public static class App
+        {
+            public static readonly RoutedUICommand ForgetServer = new RoutedUICommand();
         }
     }
 }
