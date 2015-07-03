@@ -6,6 +6,7 @@ namespace DebtSmash.Presenter
 {
     interface IView
     {
+        String GetConnectionString(String[] others);
         void HeresTheDebt(IUpdateList<Debt> debt);
     }
 }

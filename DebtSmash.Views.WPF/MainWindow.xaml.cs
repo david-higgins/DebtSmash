@@ -74,6 +74,14 @@ namespace DebtSmash.Views.WPF
             toset.description = DebtDesc.Text;
             toset.timesBurned = tb;
         }
+
+        public string GetConnectionString(String[] others)
+        {
+            var gcs = new GetConnString();
+            gcs.others = others;
+            gcs.ShowDialog();
+            return gcs.ConnectionString.Text;
+        }
     }
 
     namespace Commands

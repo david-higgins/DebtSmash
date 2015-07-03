@@ -8,15 +8,16 @@ namespace DebtSmash.Presenter
 {
     class DebtContext : DbContext
     {
+        public DebtContext(String conn) : base(conn) { }
         public DbSet<Debt> debts { get; set; }
     }
     class EFDebtUpdateList : UpdateBindingList<Debt>
     {
         readonly DebtContext ctx;
         bool loadedup = false;
-        public EFDebtUpdateList()
+        public EFDebtUpdateList(DebtContext ctx)
         {
-            ctx = new DebtContext();
+            this.ctx = ctx;
             IList<Debt> debts = new List<Debt>(ctx.debts);
             foreach (var c in debts) Add(c);
             loadedup = true;
@@ -53,9 +54,11 @@ namespace DebtSmash.Presenter
     class EF_ModelImplimentation : IModel
     {
         readonly EFDebtUpdateList edl;
-        public EF_ModelImplimentation()
+        readonly DebtContext debt_context;
+        public EF_ModelImplimentation(String connString)
         {
-            edl = new EFDebtUpdateList();
+            debt_context = new DebtContext(connString);
+            edl = new EFDebtUpdateList(debt_context);
         }
         public IUpdateList<Debt> models { get { return edl; } }
     }
