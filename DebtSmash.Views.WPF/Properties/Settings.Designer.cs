@@ -8,22 +8,58 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace DebtSmash.Views.WPF.Properties
-{
-
-
+namespace DebtSmash.Views.WPF.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "11.0.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "12.0.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("h1, h2, h3, h4, h5, h6, p, blockquote {\r\n   margin: 0;\r\n   padding: 0;\r\n}\r\nbody {" +
+            "\r\n   font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\r\n   font-size:" +
+            " 13px;\r\n   line-height: 18px;\r\n   color: #fff;\r\n   background-color: #110F14;\r\n " +
+            "  margin: 10px 13px 10px 13px;\r\n}\r\ntable {\r\n\t margin: 10px 0 15px 0;\r\n\t border-c" +
+            "ollapse: collapse;\r\n}\r\ntd,th {\t\r\n\t border: 1px solid #ddd;\r\n\t padding: 3px 10px;" +
+            "\r\n}\r\nth {\r\n\t padding: 5px 10px;\t\r\n}\r\na {\r\n   color: #59acf3;\r\n}\r\na:hover {\r\n   c" +
+            "olor: #a7d8ff;\r\n   text-decoration: none;\r\n}\r\na img {\r\n   border: none;\r\n}\r\np {\r" +
+            "\n   margin-bottom: 9px;\r\n}\r\nh1, h2, h3, h4, h5, h6 {\r\n   color: #fff;\r\n   line-h" +
+            "eight: 36px;\r\n}\r\nh1 {\r\n   margin-bottom: 18px;\r\n   font-size: 30px;\r\n}\r\nh2 {\r\n  " +
+            " font-size: 24px;\r\n}\r\nh3 {\r\n   font-size: 18px;\r\n}\r\nh4 {\r\n   font-size: 16px;\r\n}" +
+            "\r\nh5 {\r\n   font-size: 14px;\r\n}\r\nh6 {\r\n   font-size: 13px;\r\n}\r\nhr {\r\n   margin: 0" +
+            " 0 19px;\r\n   border: 0;\r\n   border-bottom: 1px solid #ccc;\r\n}\r\nblockquote {\r\n   " +
+            "padding: 13px 13px 21px 15px;\r\n   margin-bottom: 18px;\r\n   font-family:georgia,s" +
+            "erif;\r\n   font-style: italic;\r\n}\r\nblockquote:before {\r\n   content:\"\\201C\";\r\n   f" +
+            "ont-size:40px;\r\n   margin-left:-10px;\r\n   font-family:georgia,serif;\r\n   color:#" +
+            "eee;\r\n}\r\nblockquote p {\r\n   font-size: 14px;\r\n   font-weight: 300;\r\n   line-heig" +
+            "ht: 18px;\r\n   margin-bottom: 0;\r\n   font-style: italic;\r\n}\r\n\r\ncode, pre {\r\n   fo" +
+            "nt-family: Menlo, Monaco, Andale Mono, Courier New, monospace;\r\n}\r\n\r\ncode {\r\n   " +
+            "padding: 1px 3px;\r\n   font-size: 12px;\r\n   -webkit-border-radius: 3px;\r\n   -moz-" +
+            "border-radius: 3px;\r\n   border-radius: 3px;\r\n   background: #334;\r\n}\r\n\r\npre {\r\n " +
+            "  display: block;\r\n   padding: 14px;\r\n   margin: 0 0 18px;\r\n   line-height: 16px" +
+            ";\r\n   font-size: 11px;\r\n   border: 1px solid #334;\r\n   white-space: pre;\r\n   whi" +
+            "te-space: pre-wrap;\r\n   word-wrap: break-word;\r\n   background-color: #282a36;\r\n " +
+            "  border-radius: 6px;\r\n}\r\npre code {\r\n   font-size: 11px;\r\n   padding: 0;\r\n   ba" +
+            "ckground: transparent;\r\n}\r\nsup {\r\n   font-size: 0.83em;\r\n   vertical-align: supe" +
+            "r;\r\n   line-height: 0;\r\n}\r\n* {\r\n\t -webkit-print-color-adjust: exact;\r\n}\r\n@media " +
+            "screen and (min-width: 914px) {\r\n   body {\r\n      width: 854px;\r\n      margin:10" +
+            "px auto;\r\n   }\r\n}\r\n@media print {\r\n\t body,code,pre code,h1,h2,h3,h4,h5,h6 {\r\n\t\t " +
+            " color: black;\r\n\t }\r\n\t table, pre {\r\n\t\t  page-break-inside: avoid;\r\n\t }\r\n}")]
+        public string markdowncssDefault {
+            get {
+                return ((string)(this["markdowncssDefault"]));
+            }
+            set {
+                this["markdowncssDefault"] = value;
             }
         }
     }

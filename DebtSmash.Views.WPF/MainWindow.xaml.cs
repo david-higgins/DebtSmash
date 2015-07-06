@@ -105,6 +105,46 @@ namespace DebtSmash.Views.WPF
              e.CanExecute =  File.Exists(GetConnString.acd);
         }
 
+        MarkdownSharp.Markdown md = new MarkdownSharp.Markdown();
+        private void DebtDesc_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            DescHTML.NavigateToString(GetMarkdownPage(DebtDesc.Text, Properties.Settings.Default.markdowncssDefault));
+        }
+        String GetMarkdownPage(String markdowntext, String markdowncss)
+        {
+            return
+@"
+<html>
+  <head>
+    <style>
+"
++ markdowncss +
+@"
+    </style>
+  </head>
+  <body>
+"
++ md.Transform(markdowntext) + 
+@"
+  </body>
+</html>
+";
+        }
+
+    }
+
+    class InvertedBooleanToVisibilityConverter : IValueConverter
+    {
+
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value is bool && (bool)value ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     namespace Commands
