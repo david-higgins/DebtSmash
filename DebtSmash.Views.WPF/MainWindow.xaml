@@ -21,9 +21,14 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
-        <ListView ItemsSource="{Binding debt}" Name="DebtList">
+        <ListView ItemsSource="{Binding debt}" Name="DebtList" SelectionChanged="DebtList_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
+                    <DataTemplate.Resources>
+                        <Style x:Key="itemstyle" TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="DebtItemDoubleClick"/>
+                        </Style>
+                    </DataTemplate.Resources>
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
@@ -51,18 +56,12 @@
                     </DataTemplate.Triggers>
                 </DataTemplate>
             </ListView.ItemTemplate>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding name}"/>
-                    <GridViewColumn Header="Times Burned" DisplayMemberBinding="{Binding timesBurned}"/>
-                </GridView>
-            </ListView.View>
         </ListView>
 
         <WebBrowser Visibility="{Binding loading, Converter={StaticResource ib2v}}" Grid.Row="1" Name="DescHTML" Margin="0,4,0,0" />
         <GridSplitter Grid.Row="1" VerticalAlignment="Top" Height="4" BorderThickness="0,1,0,0" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
 
-        <Border Grid.Row="2" Margin="0,4,0,0">
+        <Border Grid.Row="2" Margin="0,4,0,0" Name="EditBorder" Visibility="Collapsed">
             <Grid>
                 <Grid.Resources>
                     <Style TargetType="TextBlock">
@@ -84,19 +83,22 @@
                 </Grid.RowDefinitions>
 
                 <TextBlock Grid.Column="1">Name</TextBlock>
-                <TextBox Name="DebtName" Grid.Column="2" Width="200" Text="{Binding SelectedItem.name, ElementName=DebtList, Mode=OneWay}"/>
+                <TextBox Name="DebtName" Grid.Column="2" Width="200" Text="{Binding name, Mode=OneWay}"/>
 
                 <TextBlock Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Center">Description</TextBlock>
-                <TextBox Name="DebtDesc" TextChanged="DebtDesc_TextChanged" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding SelectedItem.description, ElementName=DebtList, Mode=OneWay}"/>
+                <TextBox Name="DebtDesc" TextChanged="DebtDesc_TextChanged" TextWrapping="NoWrap" AcceptsReturn="True" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="4" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{Binding description, Mode=OneWay}"/>
 
-                <TextBlock Grid.Column="1" Grid.Row="3" Margin="0,4,0,0">Burns</TextBlock>
-                <TextBox Name="DebtBurnCount" Grid.Row="3" Grid.Column="2" Margin="0,4,0,0" Width="200" Text="{Binding SelectedItem.timesBurned, ElementName=DebtList, Mode=OneWay}"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,4,0,0">
+                    <Button Click="EditSelectedDebt">Commit</Button>
+                    <Button Click="canceledit">Cancel</Button>
+                </StackPanel>
+
                 <GridSplitter Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top" Height="4" BorderThickness="0,1,0,0" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
             </Grid>
         </Border>
         <GridSplitter Grid.Row="2" VerticalAlignment="Top" Height="4" BorderThickness="0,1,0,0" ResizeDirection="Rows" HorizontalAlignment="Stretch"/>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" FlowDirection="RightToLeft">
+        <StackPanel Orientation="Horizontal" Grid.Row="3" FlowDirection="RightToLeft" Name="bbts">
             <StackPanel.Resources>
                 <!--this applies to this node context-->
                 <Style TargetType="Button">
@@ -106,8 +108,8 @@
             </StackPanel.Resources>
             <Button HorizontalAlignment="Left" Margin="3,3,30,3" Command="cmd:App.ForgetServer">Forget Server</Button>
             <Button Command="cmd:Debt.Add">Add</Button>
+            <Button Click="showedit">Edit Selected</Button>
             <Button Command="cmd:Debt.Delete">Delete</Button>
-            <Button Command="cmd:Debt.Edit">Edit</Button>
         </StackPanel>
 
         <Border Visibility="{Binding loading, Converter={StaticResource b2v}}" Background="#55999999" Grid.RowSpan="4">

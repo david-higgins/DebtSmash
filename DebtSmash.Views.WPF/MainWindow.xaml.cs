@@ -58,27 +58,30 @@ namespace DebtSmash.Views.WPF
 
         void AddDebt(object sender, ExecutedRoutedEventArgs e)
         {
-            var newone = new Debt();
-            Setter(newone);
-            debt.Add(newone);
+            DebtList.SelectedItem = null;
+            EditBorder.DataContext = new Debt();
+            EditState(true);
         }
         void DeleteSelectedDebt(object sender, ExecutedRoutedEventArgs e)
         {
             debt.RemoveAt(DebtList.SelectedIndex);
         }
-        void EditSelectedDebt(object sender, ExecutedRoutedEventArgs e)
+        void EditSelectedDebt(object sender, RoutedEventArgs e)
         {
-            var edit_debt = debt[DebtList.SelectedIndex];
+            var edit_debt = EditBorder.DataContext as Debt;
             Setter(edit_debt);
-            debt.Update(DebtList.SelectedIndex);
+            if (!debt.Contains(edit_debt))
+            {
+                debt.Add(edit_debt);
+                DebtList.SelectedItem = edit_debt;
+            }
+            else debt.Update(DebtList.SelectedIndex);
+            EditState(false);
         }
         void Setter(Debt toset)
         {
-            int tb = 0;
-            int.TryParse(DebtBurnCount.Text, out tb);
             toset.name = DebtName.Text;
             toset.description = DebtDesc.Text;
-            toset.timesBurned = tb;
         }
 
         public string GetConnectionString(String[] others)
@@ -129,6 +132,32 @@ namespace DebtSmash.Views.WPF
   </body>
 </html>
 ";
+        }
+
+        private void DebtItemDoubleClick(object sender, MouseEventArgs mea)
+        {
+            showedit(null, null);
+        }
+        private void DebtList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            EditState(false);
+            EditBorder.DataContext = DebtList.SelectedItem;
+        }
+        private void showedit(object sender, RoutedEventArgs e)
+        {
+            if(DebtList.SelectedItem is Debt)
+                EditState(true);
+        }
+
+        void EditState(bool showing)
+        {
+            EditBorder.Visibility = showing ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+            bbts.IsEnabled = !showing;
+        }
+
+        private void canceledit(object sender, RoutedEventArgs e)
+        {
+            EditState(false);
         }
 
     }

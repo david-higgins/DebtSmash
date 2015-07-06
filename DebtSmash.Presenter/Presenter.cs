@@ -46,7 +46,7 @@ namespace DebtSmash.Presenter
             List<String> css = new List<string>();
             if(File.Exists(csf)) css.AddRange(File.ReadAllLines(csf));
             cs = view.GetConnectionString(css.ToArray());
-            if (!css.Contains(cs)) css.Add(cs);
+            if (!css.Contains(cs) && !string.IsNullOrEmpty(cs)) css.Add(cs);
             File.WriteAllLines(csf, css.ToArray());
             view.loading = true;
             ThreadPool.QueueUserWorkItem(InitData, cs);
