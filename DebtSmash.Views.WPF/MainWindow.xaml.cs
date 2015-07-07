@@ -143,7 +143,7 @@ namespace DebtSmash.Views.WPF
             EditState(false);
             EditBorder.DataContext = DebtList.SelectedItem;
         }
-        private void showedit(object sender, RoutedEventArgs e)
+        private void showedit(object sender, ExecutedRoutedEventArgs e)
         {
             if(DebtList.SelectedItem is Debt)
                 EditState(true);
@@ -201,6 +201,17 @@ namespace DebtSmash.Views.WPF
                 //        new KeyGesture(Key.F4, ModifierKeys.Alt)
                 //}
                     );
+
+            public static readonly RoutedUICommand ShowEdit = new RoutedUICommand
+                  (
+                          "Show Edit",
+                          "Show Edit",
+                          typeof(Debt),
+                          new InputGestureCollection()
+                //{
+                //        new KeyGesture(Key.F4, ModifierKeys.Alt)
+                //}
+                  );
 
             public static readonly RoutedUICommand Edit = new RoutedUICommand
                     (

@@ -3,14 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:DebtSmash.Views.WPF"
         xmlns:cmd="clr-namespace:DebtSmash.Views.WPF.Commands"
-        Title="Debt Smash!" Height="auto" Width="525" SizeToContent="Height" ResizeMode="NoResize">
+        Title="Debt Smash!" Height="auto" Width="auto" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.CommandBindings>
         <CommandBinding Command="cmd:Debt.Add"  CanExecute="AlwaysExecute" Executed="AddDebt" />
         <CommandBinding Command="cmd:Debt.Delete" CanExecute="ExecuteIfDebtSelected" Executed="DeleteSelectedDebt"/>
         <CommandBinding Command="cmd:Debt.Edit" CanExecute="ExecuteIfDebtSelected" Executed="EditSelectedDebt"/>
+        <CommandBinding Command="cmd:Debt.ShowEdit" CanExecute="ExecuteIfDebtSelected" Executed="showedit"/>
         <CommandBinding Command="cmd:App.ForgetServer" CanExecute="CommandBinding_CanExecute" Executed="CommandBinding_Executed"/>
     </Window.CommandBindings>
-    <Grid>
+    <Grid Width="auto">
         <Grid.Resources>
             <BooleanToVisibilityConverter x:Key="b2v"/>
             <local:InvertedBooleanToVisibilityConverter x:Key="ib2v"/>
@@ -21,15 +22,23 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="525"/>
+            <ColumnDefinition Width="4"/>
+        </Grid.ColumnDefinitions>
         <ListView ItemsSource="{Binding debt}" Name="DebtList" SelectionChanged="DebtList_SelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <DataTemplate.Resources>
-                        <Style x:Key="itemstyle" TargetType="ListViewItem">
-                            <EventSetter Event="MouseDoubleClick" Handler="DebtItemDoubleClick"/>
-                        </Style>
-                    </DataTemplate.Resources>
-                    <Grid>
+                    <Grid Margin="3,3,3,3">
+                        <Grid.InputBindings>
+                            <MouseBinding MouseAction="LeftDoubleClick" Command="cmd:Debt.ShowEdit"/>
+                        </Grid.InputBindings>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
@@ -108,13 +117,13 @@
             </StackPanel.Resources>
             <Button HorizontalAlignment="Left" Margin="3,3,30,3" Command="cmd:App.ForgetServer">Forget Server</Button>
             <Button Command="cmd:Debt.Add">Add</Button>
-            <Button Click="showedit">Edit Selected</Button>
+            <Button Command="cmd:Debt.ShowEdit">Edit Selected</Button>
             <Button Command="cmd:Debt.Delete">Delete</Button>
         </StackPanel>
 
         <Border Visibility="{Binding loading, Converter={StaticResource b2v}}" Background="#55999999" Grid.RowSpan="4">
             <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24"> ... Loading Data ... </TextBlock>
         </Border>
-
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Left" Width="4" BorderThickness="0,0,0,1" Grid.RowSpan="4" ResizeDirection="Columns"/>
     </Grid>
 </Window>
